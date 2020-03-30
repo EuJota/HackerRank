@@ -1,28 +1,52 @@
+'use strict';
+
+const fs = require('fs');
+
+process.stdin.resume();
+process.stdin.setEncoding('utf-8');
+
+let inputString = '';
+let currentLine = 0;
+
+process.stdin.on('data', inputStdin => {
+    inputString += inputStdin;
+});
+
+process.stdin.on('end', _ => {
+    inputString = inputString.trim().split('\n').map(str => str.trim());
+
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
 
 /*
  * Complete the simpleArraySum function below.
  */
 function simpleArraySum(ar) {
-    console.log(typeof(ar))
-    ar.reduce((total, next)=>{
+    /**Solution
+     *  Using the higher-order function, reduce, to add all the elements of the array that comes from the parameter
+     *  the reduce sum the actual value with the next and save this value
+     */
+    let sum = ar.reduce(function(total, next){
         return total + next
     })
+
+    return sum
 }
 
 function main() {
-    //const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
+    const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
 
-    //const arCount = parseInt(readLine(), 10);
+    const arCount = parseInt(readLine(), 10);
 
-    let ar = "1 2 3 4 10 11"
-
-    ar = ar.split(' ').map(arTemp => parseInt(arTemp, 10));
+    const ar = readLine().split(' ').map(arTemp => parseInt(arTemp, 10));
 
     let result = simpleArraySum(ar);
 
-    console.log(result)
+    ws.write(result + "\n");
 
-    //ws.write(result + "\n");
-
-    //ws.end();
+    ws.end();
 }
